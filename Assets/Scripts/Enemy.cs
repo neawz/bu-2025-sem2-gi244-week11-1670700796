@@ -19,11 +19,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isStunned)
-        {
-            rb.linearVelocity = Vector3.zero;
-            return;
-        }
+        if (isStunned) return;
 
         Vector3 dir = player.transform.position - transform.position;
         dir.Normalize();
@@ -37,6 +33,7 @@ public class Enemy : MonoBehaviour
     {
         isStunned = true;
         Debug.Log("Enemy Stunned");
+        rb.linearVelocity = Vector3.zero;
         yield return new WaitForSeconds(duration);
         Debug.Log("Enemy Unstunned");
         isStunned = false;
