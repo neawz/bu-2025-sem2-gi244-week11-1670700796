@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
 
     private Rigidbody rb;
     private GameObject player;
+    private Coroutine stunCoroutine;
 
 
     void Start()
@@ -27,7 +28,11 @@ public class Enemy : MonoBehaviour
     }
     public void Stun(float stunDuration)
     {
-        StartCoroutine(StunRoutine(stunDuration));
+        if (stunCoroutine != null)
+        {
+            StopCoroutine(stunCoroutine);
+        }
+        stunCoroutine = StartCoroutine(StunRoutine(stunDuration));
     }
     IEnumerator StunRoutine(float duration)
     {

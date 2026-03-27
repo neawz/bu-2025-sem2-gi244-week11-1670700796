@@ -8,9 +8,8 @@ public class PlayerController : MonoBehaviour
     public Transform focalPoint;
     public bool hasPowerUp; // Default = false
 
-    private Coroutine powerUpRoutine;
-
     private Rigidbody rb;
+    private Coroutine boostCoroutine;
 
     private InputAction moveAction;
     private InputAction smashAction;
@@ -53,25 +52,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void Boost(float duration)
     {
-        if (other.gameObject.CompareTag("PowerUp"))
+        if (boostCoroutine != null)
         {
-            if (!hasPowerUp)
-            {
-                hasPowerUp = true;
-                Destroy(other.gameObject);
-                if (powerUpRoutine != null)
-                {
-                    StopCoroutine(powerUpRoutine);
-                }
-                powerUpRoutine = StartCoroutine(PowerUpCooldown());
-            }
+            StopCoroutine(boostCoroutine);
         }
+        boostCoroutine = StartCoroutine(BoostRoutine(duration));
     }
-    IEnumerator PowerUpCooldown()
+
+    IEnumerator BoostRoutine(float duration)
     {
-        yield return new WaitForSeconds(10f);
+        Debug.Log("Boost Activated");
+        hasPowerUp = true;
+        yield return new WaitForSeconds(duration);
+        Debug.Log("Boost Ended");
         hasPowerUp = false;
     }
 }
