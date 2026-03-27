@@ -842,6 +842,7 @@ MonoBehaviour:
   speed: 2
   focalPoint: {fileID: 1028209341}
   hasPowerUp: 0
+  powerUpIndicator: {fileID: 7917694997046260443, guid: 0c82c3fc2090a364286689e0f2da1a1b, type: 3}
 --- !u!54 &1231960639
 Rigidbody:
   m_ObjectHideFlags: 0

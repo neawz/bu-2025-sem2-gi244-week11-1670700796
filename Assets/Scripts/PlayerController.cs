@@ -7,9 +7,12 @@ public class PlayerController : MonoBehaviour
     public float speed = 5f;
     public Transform focalPoint;
     public bool hasPowerUp; // Default = false
+    public GameObject powerUpIndicator;
 
     private Rigidbody rb;
     private Coroutine boostCoroutine;
+    private GameObject tempEffectIndicator;
+
 
     private InputAction moveAction;
     private InputAction smashAction;
@@ -33,6 +36,11 @@ public class PlayerController : MonoBehaviour
         if (breakAction.IsPressed())
         {
             rb.linearVelocity = Vector3.zero; // new Vector3(0, 0, 0)
+        }
+
+        if (tempEffectIndicator != null)
+        {
+            tempEffectIndicator.transform.position = transform.position;
         }
     }
 
@@ -63,9 +71,15 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator BoostRoutine(float duration)
     {
+        if (tempEffectIndicator != null)
+        {
+            Destroy(tempEffectIndicator);
+        }
+        tempEffectIndicator = Instantiate(powerUpIndicator, transform.position, Quaternion.identity);
         Debug.Log("Boost Activated");
         hasPowerUp = true;
         yield return new WaitForSeconds(duration);
+        Destroy(tempEffectIndicator);
         Debug.Log("Boost Ended");
         hasPowerUp = false;
     }
